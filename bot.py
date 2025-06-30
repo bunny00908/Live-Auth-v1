@@ -88,7 +88,7 @@ def format_approved_drop_code(cc_data, bininfo, response="Payment method success
         f"<b>💠 𝗧𝘆𝗽𝗲:</b> <code>{ctype} - {brand}</code>\n"
         f"<b>━━━━━━━━━━━━━━━━━━━</b>\n"
         f"<b>🕒 𝗧𝗶𝗺𝗲:</b> <code>{time_str}</code>\n"
-        f"<b>[⌥] 𝗗𝗲𝘃:</b> <a href='https://t.me/bunny2050'><code>BUNNY - 👑</code></a>"
+        f"[⌥] 𝗗𝗲𝘃: <a href='https://t.me/bunny2050'>BUNNY - 👑</a>"
     )
     return message
 
