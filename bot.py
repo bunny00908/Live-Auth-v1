@@ -76,19 +76,19 @@ def format_approved_drop_code(cc_data, bininfo, response="Payment method success
     time_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     message = (
-        f"<b>Approved Live Stripe Auth ✅</b>\n"
+        f"<b>𝗔𝗽𝗽𝗿𝗼𝘃𝗲𝗱 𝗟𝗶𝘃𝗲 𝗦𝘁𝗿𝗶𝗽𝗲 𝗔𝘂𝘁𝗵 ✅</b>\n"
         f"<b>━━━━━━━━━━━━━━━━━━━</b>\n"
-        f"<b>💳 CC:</b> <code>{cc_data}</code>\n"
-        f"<b>🔐 GATE:</b> <code>Stripe Auth</code>\n"
-        f"<b>🟢 RESPONSE:</b> <code>{response}</code>\n"
+        f"<b>💳 𝗖𝗖:</b> <code>{cc_data}</code>\n"
+        f"<b>🔐 𝗚𝗔𝗧𝗘:</b> <code>Stripe Auth</code>\n"
+        f"<b>🟢 𝗥𝗘𝗦𝗣𝗢𝗡𝗦𝗘:</b> <code>{response}</code>\n"
         f"<b>━━━━━━━━━━━━━━━━━━━</b>\n"
-        f"<b>🆔 BIN:</b> <code>{bin_number}</code>\n"
-        f"<b>🏦 Bank:</b> <code>{bank}</code>\n"
-        f"<b>🌍 Country:</b> {flag} <code>{country}</code>\n"
-        f"<b>💠 Type:</b> <code>{ctype} - {brand}</code>\n"
+        f"<b>🆔 𝗕𝗜𝗡:</b> <code>{bin_number}</code>\n"
+        f"<b>🏦 𝗕𝗮𝗻𝗸:</b> <code>{bank}</code>\n"
+        f"<b>🌍 𝗖𝗼𝘂𝗻𝘁𝗿𝘆:</b> {flag} <code>{country}</code>\n"
+        f"<b>💠 𝗧𝘆𝗽𝗲:</b> <code>{ctype} - {brand}</code>\n"
         f"<b>━━━━━━━━━━━━━━━━━━━</b>\n"
-        f"<b>🕒 Time:</b> <code>{time_str}</code>\n"
-        f"<b>[⌥] Dev:</b> <code>BUNNY - 👑</code>"
+        f"<b>🕒 𝗧𝗶𝗺𝗲:</b> <code>{time_str}</code>\n"
+        f"<b>[⌥] 𝗗𝗲𝘃:</b> <a href='https://t.me/bunny2050'><code>BUNNY - 👑</code></a>"
     )
     return message
 
